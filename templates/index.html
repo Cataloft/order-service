@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data from Cache</title>
+</head>
+<body>
+
+
+
+    <h3>Order info</h3><table>
+        <tr><td>Tracknumber: {{ .TrackNumber }}</td></tr>
+        <tr><td>OrderUid: {{ .OrderUid }}</td></tr>
+        <tr><td>Entry: {{ .Entry }}</td></tr>
+        <tr><td>Locale: {{ .Locale }}</td></tr>
+        <tr><td>InternalSignature: {{ .InternalSignature }}</td></tr>
+        <tr><td>CustomerId: {{ .CustomerId }}</td></tr>
+        <tr><td>DeliveryService: {{ .DeliveryService }}</td></tr>
+        <tr><td>Shardkey: {{ .Shardkey }}</td></tr>
+        <tr><td>SmId: {{ .SmId }}</td></tr>
+        <tr><td>DateCreated: {{ .DateCreated }}</td></tr>
+        <tr><td>OofShard: {{ .OofShard }}</td></tr>
+        <tr><td>Shardkey: {{ .Shardkey }}</td></tr>
+    </table>
+
+
+
+    <h3>Delivery</h3><table>
+        <tr><td>Name: {{ .Delivery.Name }}</td></tr>
+        <tr><td>Phone: {{ .Delivery.Phone }}</td></tr>
+        <tr><td>Zip: {{ .Delivery.Zip }}</td></tr>
+        <tr><td>City: {{ .Delivery.City }}</td></tr>
+        <tr><td>Address: {{ .Delivery.Address }}</td></tr>
+        <tr><td>Region: {{ .Delivery.Region }}</td></tr>
+        <tr><td>Email: {{ .Delivery.Email }}</td></tr>
+        <tr><td>DeliveryId: {{ .Delivery.DeliveryId }}</td></tr>
+    </table>
+
+
+    <h3>Payment</h3><table>
+        <tr><td>Transaction: {{ .Payment.Transaction }}</td></tr>
+        <tr><td>RequestId: {{ .Payment.RequestId }}</td></tr>
+        <tr><td>Currency: {{ .Payment.Currency }}</td></tr>
+        <tr><td>Provider: {{ .Payment.Provider }}</td></tr>
+        <tr><td>Amount: {{ .Payment.Amount }}</td></tr>
+        <tr><td>PaymentDt: {{ .Payment.PaymentDt }}</td></tr>
+        <tr><td>Bank: {{ .Payment.Bank }}</td></tr>
+        <tr><td>DeliveryCost: {{ .Payment.DeliveryCost }}</td></tr>
+        <tr><td>GoodsTotal: {{ .Payment.GoodsTotal }}</td></tr>
+        <tr><td>CustomFee: {{ .Payment.CustomFee }}</td></tr>
+    </table>
+
+
+    <h3>Items</h3><table>
+        {{ range .Items }}
+        <tr><td>ChrtId: {{ .ChrtId }}</td></tr>
+        <tr><td>TrackNumber: {{ .TrackNumber }}</td></tr>
+        <tr><td>Price: {{ .Price }}</td></tr>
+        <tr><td>Rid: {{ .Rid }}</td></tr>
+        <tr><td>Name: {{ .Name }}</td></tr>
+        <tr><td>Sale: {{ .Sale }}</td></tr>
+        <tr><td>Size: {{ .Size }}</td></tr>
+        <tr><td>TotalPrice: {{ .TotalPrice }}</td></tr>
+        <tr><td>NmId: {{ .NmId }}</td></tr>
+        <tr><td>Brand: {{ .Brand }}</td></tr>
+        <tr><td>Status: {{ .Status }}</td></tr>
+        {{ end }}
+    </table>
+
+
+
+
+</body>
+</html>

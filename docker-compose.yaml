@@ -1,0 +1,22 @@
+version: "3"
+services:
+  nats-streaming-server:
+    image: nats-streaming:alpine3.17
+#    volumes:
+#      - storage:/data
+    command:
+      - "--cluster_id"
+      - "default"
+      - "-store"
+      - "file"
+      - "-dir"
+      - "/data"
+      - "-p"
+      - "4222"
+      - "-m"
+      - "8222"
+    ports:
+      - 4222:4222
+      - 8222:8222
+#volumes:
+#  storage:
