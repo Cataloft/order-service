@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"order_service/internal/model"
 	"order_service/internal/streaming/producer"
@@ -14,14 +15,18 @@ const n = 10
 func main() {
 	clusterID := "default"
 	clientProd := "client-producer"
-	prod := producer.New(clusterID, clientProd, "0.0.0.0:4222")
-	kek := GenerateData(n)
-	for i, v := range kek {
-		fmt.Println(i, "id = ", v)
-	}
-	fmt.Println(kek)
-	prod.Publish("order", kek)
 
+	prod := producer.New(clusterID, clientProd, "0.0.0.0:4222")
+
+	genData := GenerateData(n)
+	for i, v := range genData {
+		fmt.Println("id = ", i, ": ", v)
+	}
+
+	err := prod.Publish("order", genData)
+	if err != nil {
+		log.Printf("Publish error", err)
+	}
 }
 
 func GenerateData(n int) []string {
@@ -81,9 +86,12 @@ func GenerateData(n int) []string {
 	}
 
 	var sliceOrderJson []string
+
 	orderInfo.Delivery.DeliveryId += "0"
+
 	for i := 0; i < n; i++ {
 		orderInfo.Delivery.DeliveryId = ConvertStr(orderInfo.Delivery.DeliveryId, i)
+		orderInfo.TrackNumber = ConvertStr(orderInfo.TrackNumber, i)
 		orderInfo.OrderUid = RandStringBytes() + orderInfo.Delivery.DeliveryId
 		orderInfoJson, _ := json.Marshal(orderInfo)
 		sliceOrderJson = append(sliceOrderJson, string(orderInfoJson))
@@ -97,7 +105,6 @@ func ConvertStr(field string, i int) string {
 	return field
 }
 
-// 15
 const syms = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 func RandStringBytes() string {

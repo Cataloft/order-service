@@ -13,34 +13,29 @@ import (
 )
 
 func main() {
-
 	repo := repository.New(os.Getenv("connStr"))
 
 	cch := cache.New()
-	cch.RecoverCache(repo)
+
+	err := repo.RecoverCache(cch)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	clusterID := "default"
 	clientSub := "client-consumer"
 
-	sub := consumer.New(clusterID, clientSub, "0.0.0.0:4222", repo, cch)
-	sub.Subscribe("order")
+	sub := consumer.New(clusterID, clientSub, os.Getenv("natsURL"), repo, cch)
+	err = sub.Subscribe("order")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	srv := server.New(cch)
-	srv.Start()
-	//sc, _ := stan.Connect(clusterID, clientID, stan.NatsURL("0.0.0.0:4222"))
-	//
-	//// Simple async subscriber.
-	//sub, _ := sc.Subscribe("foo", func(m *stan.Msg) {
-	//	fmt.Printf("received message: %s\n", string(m.Data))
-	//}, stan.DurableName("my-durable"))
-	//
-	//// Simple synchronous publisher.
-	//// This does not return until an ack has been received from
-	//// NATS Streaming.
-	//sc.Publish("foo", []byte(uint8(23)))
-	//
-	//sub.Unsubscribe()
-	//sc.Close()
+	err = srv.Start()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	signalChan := make(chan os.Signal, 1)
 	cleanupDone := make(chan bool)
