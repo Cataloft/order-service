@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"order_service/internal/model"
 	"order_service/internal/streaming/producer"
+	"os"
 	"strconv"
 )
 
@@ -16,7 +17,7 @@ func main() {
 	clusterID := "default"
 	clientProd := "client-producer"
 
-	prod := producer.New(clusterID, clientProd, "0.0.0.0:4222")
+	prod := producer.New(clusterID, clientProd, os.Getenv("natsURL"))
 
 	genData := GenerateData(n)
 	for i, v := range genData {
